@@ -20,7 +20,7 @@ def img_transform(dzn_photo, RESCALE_SIZE):
 
 
 def load_model(PATH):
-    model = torchvision.models.vgg19_bn()
+    model = torchvision.models.densenet201()
     N_CLASSES = 5
     num_features = 4096
     model.classifier[6] = torch.nn.Linear(num_features, N_CLASSES)
@@ -39,7 +39,7 @@ def predict(inputs, model):
 
 def ml_for_eye_care(dzn_photo):    
     
-    PATH = '../data/model/vgg19.txt'
+    PATH = '../data/model/densenet201.txt'
     RESCALE_SIZE = 224, 224
 
     model = load_model(PATH)
