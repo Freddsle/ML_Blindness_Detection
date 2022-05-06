@@ -8,8 +8,6 @@ authors = ["Yuliya Burankova, Leonid Zhozhikov, Dmitrii Podgalo, Artem Kosmin, A
 [tool.poetry.dependencies]
 python = ">=3.9,<3.11"
 aiogram = "^2.20"
-ipynb = "^0.5.1"
-ipython = "^8.3.0"
 sklearn = "^0.0"
 seaborn = "^0.11.2"
 torch = "^1.11.0"

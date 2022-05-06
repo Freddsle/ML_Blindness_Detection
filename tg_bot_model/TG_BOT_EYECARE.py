@@ -8,6 +8,7 @@ Project team members:
      - Leonid Zhozhikov
 """
 import logging
+import random
 from aiogram import Bot, types
 from aiogram.utils import executor
 from aiogram.dispatcher import Dispatcher
@@ -15,7 +16,7 @@ from aiogram.types.message import ContentType
 from aiogram.utils.markdown import text
 from aiogram.types import ParseMode
 from config import TOKEN
-from ipynb.fs.defs.demo import ml_for_eye_care_demo  # ml_for_eye_care
+from model_pred import ml_for_eye_care  # ml_for_eye_care
 
 # enable logging
 logging.basicConfig(
@@ -50,14 +51,23 @@ async def process_help_command(message: types.Message):
 @dp.message_handler(content_types=['photo'])
 async def process_document_message(msg: types.Message):
     # # download image
-    # await msg.photo[-1].download(dzn_photo)  # or 'dzn_photo.jpg'
-    await msg.reply('Секундочку, обкашляем этот вопросик с нейронными сетями..')
-    answer = ml_for_eye_care_demo(1)  # нужно будет убрать демо, когда будет норм модель
 
-    if answer == 1:  # например
-        await msg.reply('Ретинопатия есть, срочно к эндокринологу. Давай следующего?')
-    elif answer == 0:
-        await msg.reply('Всё четко, пациент здоров. Давай следующего?')
+    img_name = '../data/photo/' + str(random.randint(1, 999)) + '.png'
+    await msg.photo[-1].download(img_name)
+    await msg.reply('Second, plase wait...')
+    
+    answer = ml_for_eye_care(img_name) 
+
+    if answer == 0:  # например
+        await msg.reply('No diabetic retinopathy')
+    elif answer == 1:
+        await msg.reply('Mild diabetic retinopathy')
+    elif answer == 2:
+        await msg.reply('Moderate  diabetic retinopathy')
+    elif answer == 3:
+        await msg.reply('Severe diabetic retinopathy')
+    elif answer == 4:
+        await msg.reply('Proliferative diabetic retinopathy')
     else:
         await msg.reply('Что-то пошло не так!')
     logger.info('END')
