@@ -35,15 +35,16 @@ logger = logging.getLogger()
 
 @dp.message_handler(commands=['start'])
 async def process_start_command(message: types.Message):
-    await message.reply('Привет, офтальмолог!\nДавай попробуем предсказать ретинопатию у твоего диабетника.'
-                        'Тыкай /help для того, чтобы узнать как.')
+    await message.reply('Привет, офтальмолог!\nДавай попробуем предсказать ретинопатию у твоего пациента.'
+                        'Нажми /help для того, чтобы узнать как или сразу присылай фото!.')
     logger.info('start typed')
 
 
 @dp.message_handler(commands=['help'])
 async def process_help_command(message: types.Message):
     msg = text('Отправь фото ДЗН пациента и жди, '
-               'как только, так сразу появится результат в этом чате.')
+               'как только, так сразу появится результат в этом чате.',
+               'Важно! Присылай фото в виде фото, а не документом!')
     await message.reply(msg, parse_mode=ParseMode.MARKDOWN)
     logger.info('help typed')
 
@@ -54,12 +55,12 @@ async def process_document_message(msg: types.Message):
 
     img_name = '../data/photo/' + str(random.randint(1, 999)) + '.png'
     await msg.photo[-1].download(img_name)
-    await msg.reply('Second, plase wait...')
+    await msg.reply('Предсказываем, ожидайте...')
     
     answer = ml_for_eye_care(img_name) 
 
     if answer == 0:  # например
-        await msg.reply('No diabetic retinopathy')
+        await msg.reply('No diabetic retinopathy (здоров)')
     elif answer == 1:
         await msg.reply('Mild diabetic retinopathy')
     elif answer == 2:
@@ -75,7 +76,8 @@ async def process_document_message(msg: types.Message):
 
 @dp.message_handler(content_types=ContentType.ANY)
 async def unknown_message(msg: types.Message):
-    message_text = text('Отправь фото глазного дна \nили нажми еще раз /help.')
+    message_text = text('Отправь фото глазного дна \nили нажми еще раз /help.',
+                        'Это точно фото, а не документ?')
     await msg.reply(message_text, parse_mode=ParseMode.MARKDOWN)
     logger.info('unknown thing sent instead of a document')
 
