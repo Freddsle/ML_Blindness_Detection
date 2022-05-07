@@ -2,14 +2,14 @@
 ML project. Dataset - [APTOS 2019 Blindness Detection](https://www.kaggle.com/competitions/aptos2019-blindness-detection/data)
 
 
-##### Что в папке с тг ботом:
-###### 1. конфиг с токеном тг бота
-###### 2. демо ноутбук, там только функция которая через 5 сек рандомно кидает числа 0 1 2
-###### 3. модел_НОВЫЙ, это весь код с папки code обернутый в одну функцию, которая принимает фото глазного дна (тут надо уточнить: я пытался заранить его, но есть ошибка с json форматированием для строк содержащих линуксовые команды типа "! cat file.txt", кажется он их не любит. Поэтому нз как быть.)
-###### 4. ТГ БОТ. я там понатыкал комментов, но основной связан с переменной answer которая запускает код с ноутбука и отправляет ему фото ДЗН. просто надо будет там название поменять и в импорте тоже. Пока что он работает только с демо ноутбуком. + он еще делает логирование)
+Model training code in `code` folder. Final model for TG bot in `data/model` folder.
 
+For run training code in collab you have to add kaggle API (json file) to colaab folder.
 
-
+TG bot in `tg_bot_model` model. TG bot contains:
+- config with bot token
+- file for model loading and prediction
+- TG bot (run this file to run bot)
 
 
 # Install and run with pip
